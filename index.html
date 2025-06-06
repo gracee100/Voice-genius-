@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoiceGenius - Advanced TTS & STT Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>VoiceGenius</h1>
+            <p>Advanced Text-to-Speech & Speech-to-Text Tool</p>
+            <div class="theme-toggle">
+                <button id="themeToggle"><i class="fas fa-moon"></i> Dark Mode</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="tts-tab">Text-to-Speech</button>
+            <button class="tab-btn" data-tab="stt-tab">Speech-to-Text</button>
+            <button class="tab-btn" data-tab="story-tab">Interactive Story</button>
+            <button class="tab-btn" data-tab="guide-tab">How to Use</button>
+        </div>
+
+        <!-- Text-to-Speech Tab -->
+        <div id="tts-tab" class="tab-content active">
+            <div class="tts-container">
+                <div class="input-section">
+                    <h2>Text Input</h2>
+                    <div class="text-formatting">
+                        <button class="format-btn" data-format="bold"><i class="fas fa-bold"></i></button>
+                        <button class="format-btn" data-format="italic"><i class="fas fa-italic"></i></button>
+                        <button class="format-btn" data-format="underline"><i class="fas fa-underline"></i></button>
+                    </div>
+                    <textarea id="ttsText" placeholder="Enter text here..."></textarea>
+                    <div class="translation-section">
+                        <div class="translation-controls">
+                            <select id="sourceLang">
+                                <option value="en">English</option>
+                                <option value="es">Spanish</option>
+                                <option value="fr">French</option>
+                                <option value="de">German</option>
+                                <option value="it">Italian</option>
+                                <option value="ja">Japanese</option>
+                                <option value="zh">Chinese</option>
+                                <option value="ru">Russian</option>
+                            </select>
+                            <button id="translateBtn"><i class="fas fa-exchange-alt"></i></button>
+                            <select id="targetLang">
+                                <option value="en">English</option>
+                                <option value="es">Spanish</option>
+                                <option value="fr">French</option>
+                                <option value="de">German</option>
+                                <option value="it">Italian</option>
+                                <option value="ja">Japanese</option>
+                                <option value="zh">Chinese</option>
+                                <option value="ru">Russian</option>
+                            </select>
+                        </div>
+                        <textarea id="translatedText" placeholder="Translation will appear here..." readonly></textarea>
+                    </div>
+                </div>
+
+                <div class="controls-section">
+                    <h2>Voice Settings</h2>
+                    <div class="voice-controls">
+                        <div class="control-group">
+                            <label for="voiceSelect">Voice:</label>
+                            <select id="voiceSelect"></select>
+                            <button id="previewBtn">Preview Voice</button>
+                        </div>
+                        <div class="control-group">
+                            <label for="emotionSelect">Emotion:</label>
+                            <select id="emotionSelect">
+                                <option value="neutral">Neutral</option>
+                                <option value="happy">Happy</option>
+                                <option value="sad">Sad</option>
+                                <option value="angry">Angry</option>
+                                <option value="excited">Excited</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label for="rate">Speed: <span id="rateValue">1</span></label>
+                            <input type="range" id="rate" min="0.5" max="2" step="0.1" value="1">
+                        </div>
+                        <div class="control-group">
+                            <label for="pitch">Pitch: <span id="pitchValue">1</span></label>
+                            <input type="range" id="pitch" min="0.5" max="2" step="0.1" value="1">
+                        </div>
+                        <div class="control-group">
+                            <label for="volume">Volume: <span id="volumeValue">1</span></label>
+                            <input type="range" id="volume" min="0" max="1" step="0.1" value="1">
+                        </div>
+                        <div class="custom-voice">
+                            <h3>Custom Voice Creator</h3>
+                            <div class="control-group">
+                                <label for="nasality">Nasality: <span id="nasalityValue">50</span></label>
+                                <input type="range" id="nasality" min="0" max="100" value="50">
+                            </div>
+                            <div class="control-group">
+                                <label for="breathiness">Breathiness: <span id="breathinessValue">50</span></label>
+                                <input type="range" id="breathiness" min="0" max="100" value="50">
+                            </div>
+                            <div class="control-group">
+                                <label for="roughness">Roughness: <span id="roughnessValue">50</span></label>
+                                <input type="range" id="roughness" min="0" max="100" value="50">
+                            </div>
+                            <button id="saveVoiceBtn">Save Custom Voice</button>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button id="playBtn"><i class="fas fa-play"></i> Play</button>
+                        <button id="pauseBtn" disabled><i class="fas fa-pause"></i> Pause</button>
+                        <button id="resumeBtn" disabled><i class="fas fa-play"></i> Resume</button>
+                        <button id="stopBtn" disabled><i class="fas fa-stop"></i> Stop</button>
+                        <button id="downloadBtn"><i class="fas fa-download"></i> Download</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Speech-to-Text Tab -->
+        <div id="stt-tab" class="tab-content">
+            <div class="stt-container">
+                <div class="stt-controls">
+                    <h2>Speech Recognition</h2>
+                    <div class="control-group">
+                        <label for="sttLanguage">Language:</label>
+                        <select id="sttLanguage">
+                            <option value="en-US">English (US)</option>
+                            <option value="en-GB">English (UK)</option>
+                            <option value="es-ES">Spanish</option>
+                            <option value="fr-FR">French</option>
+                            <option value="de-DE">German</option>
+                            <option value="it-IT">Italian</option>
+                            <option value="ja-JP">Japanese</option>
+                            <option value="zh-CN">Chinese</option>
+                            <option value="ru-RU">Russian</option>
+                        </select>
+                    </div>
+                    <div class="action-buttons">
+                        <button id="startRecordingBtn"><i class="fas fa-microphone"></i> Start Recording</button>
+                        <button id="stopRecordingBtn" disabled><i class="fas fa-microphone-slash"></i> Stop Recording</button>
+                        <button id="copyTextBtn"><i class="fas fa-copy"></i> Copy Text</button>
+                    </div>
+                    <div class="translation-toggle">
+                        <label>
+                            <input type="checkbox" id="enableTranslation"> Enable Real-time Translation
+                        </label>
+                        <select id="sttTargetLanguage" disabled>
+                            <option value="en">English</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                            <option value="it">Italian</option>
+                            <option value="ja">Japanese</option>
+                            <option value="zh">Chinese</option>
+                            <option value="ru">Russian</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="stt-output">
+                    <h3>Transcribed Text:</h3>
+                    <textarea id="transcribedText" placeholder="Your transcribed text will appear here..." readonly></textarea>
+                    <div id="translationOutput" class="hidden">
+                        <h3>Translation:</h3>
+                        <textarea id="translatedSttText" placeholder="Translation will appear here..." readonly></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Story Tab -->
+        <div id="story-tab" class="tab-content">
+            <div class="story-container">
+                <h2>Interactive Storytelling</h2>
+                <div class="story-controls">
+                    <div class="control-group">
+                        <label for="storySelect">Choose a Story:</label>
+                        <select id="storySelect">
+                            <option value="fairytale">The Magic Forest</option>
+                            <option value="adventure">Space Adventure</option>
+                            <option value="mystery">The Haunted Mansion</option>
+                        </select>
+                    </div>
+                    <div class="action-buttons">
+                        <button id="startStoryBtn"><i class="fas fa-book-open"></i> Start Story</button>
+                        <button id="nextStoryBtn" disabled><i class="fas fa-forward"></i> Continue</button>
+                        <button id="pauseStoryBtn" disabled><i class="fas fa-pause"></i> Pause</button>
+                        <button id="stopStoryBtn" disabled><i class="fas fa-stop"></i> Stop</button>
+                    </div>
+                </div>
+
+                <div class="story-display">
+                    <div id="storyText" class="story-text">
+                        <p>Select a story and click "Start Story" to begin your interactive adventure!</p>
+                    </div>
+                    <div id="storyQuestion" class="hidden">
+                        <h3>What will you do?</h3>
+                        <div id="questionOptions"></div>
+                        <button id="answerMicBtn" class="mic-btn"><i class="fas fa-microphone"></i> Answer with Voice</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- How to Use Tab -->
+        <div id="guide-tab" class="tab-content">
+            <div class="guide-container">
+                <h2>How to Use VoiceGenius</h2>
+                
+                <section class="guide-section">
+                    <h3><i class="fas fa-comment-alt"></i> What is TTS and STT?</h3>
+                    <div class="guide-content">
+                        <p><strong>Text-to-Speech (TTS):</strong> A technology that converts written text into spoken words. It is useful for listening to written content, language learning, and accessibility.</p>
+                        <p><strong>Speech-to-Text (STT):</strong> A technology that converts spoken words into written text. It is useful for transcription, voice commands, and communication.</p>
+                    </div>
+                </section>
+
+                <section class="guide-section">
+                    <h3><i class="fas fa-volume-up"></i> How to Use the TTS Feature</h3>
+                    <div class="guide-content">
+                        <ol>
+                            <li>Enter your text in the input box.</li>
+                            <li>Select a language and voice from the dropdown menus.</li>
+                            <li>Adjust the speech rate, pitch, and volume using the sliders.</li>
+                            <li>Choose an emotion to modify how the text sounds.</li>
+                            <li>Click the "Play" button to hear the text spoken aloud.</li>
+                            <li>Use the "Pause," "Resume," and "Stop" buttons to control playback.</li>
+                            <li>Click the "Download" button to save the speech as an audio file.</li>
+                            <li>Use the translation feature to convert text to another language before speaking.</li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section class="guide-section">
+                    <h3><i class="fas fa-microphone"></i> How to Use the STT Feature</h3>
+                    <div class="guide-content">
+                        <ol>
+                            <li>Click the "Start Recording" button to begin capturing your speech.</li>
+                            <li>Speak clearly into your microphone.</li>
+                            <li>Click the "Stop Recording" button to end the session.</li>
+                            <li>View the transcribed text in the output box.</li>
+                            <li>Click the "Copy" button to copy the text to your clipboard.</li>
+                            <li>Enable real-time translation to get your speech translated as you speak.</li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section class="guide-section">
+                    <h3><i class="fas fa-book"></i> How to Use Interactive Storytelling</h3>
+                    <div class="guide-content">
+                        <ol>
+                            <li>Select a story from the dropdown menu.</li>
+                            <li>Click "Start Story" to begin the narration.</li>
+                            <li>The story will pause at key moments to ask you questions.</li>
+                            <li>Choose an option or speak your answer to continue the story.</li>
+                            <li>Use the controls to pause, continue, or stop the story.</li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section class="guide-section">
+                    <h3><i class="fas fa-lightbulb"></i> Tips for Best Results</h3>
+                    <div class="guide-content">
+                        <ul>
+                            <li>Speak clearly and at a moderate pace for accurate STT transcription.</li>
+                            <li>Use a high-quality microphone for better audio input.</li>
+                            <li>Experiment with different voices and settings in TTS to find your preferred style.</li>
+                            <li>Try different emotions to see how they affect the speech output.</li>
+                            <li>For translation, use simple and clear sentences for best results.</li>
+                            <li>In a noisy environment, use an external microphone for STT.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="guide-section">
+                    <h3><i class="fas fa-question-circle"></i> FAQs</h3>
+                    <div class="guide-content faq">
+                        <div class="faq-item">
+                            <h4>Can I use this app offline?</h4>
+                            <p>No, the app requires an internet connection to access TTS and STT APIs.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h4>What languages are supported?</h4>
+                            <p>The app supports multiple languages for both TTS and STT. Check the dropdown menus for available options.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h4>Is my data saved?</h4>
+                            <p>No, your data is not stored on our servers. All processing happens in real-time.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h4>Why can't the app access my microphone?</h4>
+                            <p>Make sure you've granted microphone permissions in your browser settings. Also check that no other application is using the microphone.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h4>Can I save my custom voice settings?</h4>
+                            <p>Yes, use the "Save Custom Voice" button to store your voice settings for future sessions.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- History Sidebar -->
+        <div id="historySidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h3>History</h3>
+                <button id="closeHistoryBtn">&times;</button>
+            </div>
+            <div class="history-list">
+                <!-- History items will be added here dynamically -->
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>VoiceGenius</h3>
+                    <p>Advanced Text-to-Speech and Speech-to-Text tool with powerful features for communication, accessibility, and entertainment.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#" class="tab-link" data-tab="tts-tab">Text-to-Speech</a></li>
+                        <li><a href="#" class="tab-link" data-tab="stt-tab">Speech-to-Text</a></li>
+                        <li><a href="#" class="tab-link" data-tab="story-tab">Interactive Story</a></li>
+                        <li><a href="#" class="tab-link" data-tab="guide-tab">How to Use</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>For support or feedback, please email:</p>
+                    <p>support@voicegenius.app</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 VoiceGenius. All rights reserved.</p>
+                <button id="historyBtn"><i class="fas fa-history"></i> View History</button>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
